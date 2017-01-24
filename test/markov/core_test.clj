@@ -24,3 +24,30 @@
               ["the" "Golden"] #{"Grouse"}
               ["And" "the"] #{"Pobble" "Golden"}}
              (text->word-chain example))))))
+
+(deftest test-walk-chain
+  (let [chain {["who" nil] #{},
+               ["Pobble" "who"] #{},
+               ["the" "Pobble"] #{"who"},
+               ["Grouse" "And"] #{"the"},
+               ["Golden" "Grouse"] #{"And"},
+               ["the" "Golden"] #{"Grouse"},
+               ["And" "the"] #{"Pobble" "Golden"}}]
+    (testing "dead end"
+      (let [prefix ["the" "Pobble"]]
+        (is (= ["the" "Pobble" "who"]
+               (walk-chain prefix chain prefix)))))
+    (testing "multiple choices"
+      (with-redefs [shuffle (fn [c] c)]
+        (let [prefix ["And" "the"]]
+          (is (= ["And" "the" "Pobble" "who"]
+                 (walk-chain prefix chain prefix))))))))
+
+
+
+
+
+
+
+
+
