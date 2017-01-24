@@ -1,6 +1,7 @@
 (ns markov.core
   (:require [clojure.string :as s]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [clojure.java.io :as io]))
 
 (defn word-chain [word-transitions]
   (reduce (fn [r [p1 p2 s]] (merge-with set/union r
@@ -47,13 +48,14 @@
 
   Usage
 
-  (def file "/res/file.txt")
-  (def word-chain (process-file file))
-  (def start-phrases ["And I" "To be" "Hello from" "YOU MOTHER"])
-  (def char-limit 350)
+  (def prefixes ["We have" "These institutions" "It will" "So you" "God bless" "I think"])
+  (def files ["resource/text1.txt" "resource/text2.txt" "resource/text3.txt"])
+  (def functional-raegan (apply merge-with set/union (map process-file files)))
+  (def example-chain (generate-text (first (shuffle prefixes)) functional-raegan 300))
 
-  (def markov-chain (generate-text (first (shuffle start-phrases)) word-chain char-limit))
+  Provided in the resources directory are three transcripts of speeches given by former President Ronald Raegan
 
+  I didn't lint them very well so they might provide some funky behavior.
 )
 
 
