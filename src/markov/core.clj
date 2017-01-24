@@ -39,7 +39,22 @@
         result-text (chain->text result-chain)]
     result-text))
 
+(defn process-file
+  [fname]
+  (text->word-chain (slurp fname)))
 
+(comment
+
+  Usage
+
+  (def file "/res/file.txt")
+  (def word-chain (process-file file))
+  (def start-phrases ["And I" "To be" "Hello from" "YOU MOTHER"])
+  (def char-limit 350)
+
+  (def markov-chain (generate-text (first (shuffle start-phrases)) word-chain char-limit))
+
+)
 
 
 
