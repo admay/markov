@@ -32,17 +32,24 @@
                ["Grouse" "And"] #{"the"},
                ["Golden" "Grouse"] #{"And"},
                ["the" "Golden"] #{"Grouse"},
-               ["And" "the"] #{"Pobble" "Golden"}}]
+               ["And" "the"] #{"Pobble" "Golden"}}
+        char-limit 200]
     (testing "dead end"
       (let [prefix ["the" "Pobble"]]
         (is (= ["the" "Pobble" "who"]
-               (walk-chain prefix chain prefix)))))
+               (walk-chain prefix chain prefix char-limit)))))
     (testing "multiple choices"
       (with-redefs [shuffle (fn [c] c)]
         (let [prefix ["And" "the"]]
           (is (= ["And" "the" "Pobble" "who"]
-                 (walk-chain prefix chain prefix))))))))
-
+                 (walk-chain prefix chain prefix char-limit))))))
+    (testing "repeating chains"
+      (with-redefs [shuffle (fn [c] (reverse c))]
+        (let [prefix ["And" "the"]]
+          (is (> char-limit
+                 (count (apply str (walk-chain prefix chain prefix char-limit)))))
+          (is (= ["And" "the" "Golden" "Grouse" "And" "the" "Golden" "Grouse"]
+                 (take 8 (walk-chain prefix chain prefix char-limit)))))))))
 
 
 
