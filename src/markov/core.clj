@@ -1,7 +1,6 @@
 (ns markov.core
   (:require [clojure.string :as s]
-            [clojure.set :as set]
-            [clojure.java.io :as io]))
+            [clojure.set :as set]))
 
 (defn word-chain [word-transitions]
   (reduce (fn [r [p1 p2 s]] (merge-with set/union r
