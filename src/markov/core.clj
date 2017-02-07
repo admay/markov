@@ -56,20 +56,3 @@
 
   I didn't lint them very well so they might provide some funky behavior.
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
